@@ -16,7 +16,7 @@ data.get('/',(req,res)=>{
     res.send(value)
 })
 
-data.post('/firsttry/:id',(req,res)=>{
+data.post('/:id',(req,res)=>{
 
     const {id} = req.params;
     const {name} = req.body;
