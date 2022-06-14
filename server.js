@@ -12,13 +12,13 @@ data.listen(port,()=>{
     console.log(`http:localhost:${port}`)
 })
 
-data.get('/',(res,req)=>{
-    res.send({"emptydata":"nodata"});
+data.get('/',(req,res)=>{
+    res.send({"emptydata":"nodata"})
 })
 
-data.get('/firsttry',(res,req)=>{
+data.get('/firsttry',(req,res)=>{
     console.log(res);
-    req.status(200).send({
+    res.status(200).send({
         "status":"ok",
         "name":"vskrishnan"
     })
