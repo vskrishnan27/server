@@ -23,8 +23,8 @@ const newSales = new SalesSchema({
     ProductQty : {
         type:Number
     },
-    ProductDate : {
-        type:Date
+    SalesDate : {
+        time : { type : Date, default: Date.now }
     }
 })
 

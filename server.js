@@ -3,7 +3,8 @@ const ProductDataSchema = require("./models/ProductSchema")
 const { default: mongoose } = require('mongoose');
 const mangoUrl = 'mongodb+srv://stockmanager:GWc0t9Z2ePgkxzcW@cluster0.ulojg.mongodb.net/?retryWrites=true&w=majority'
 const mango = require('mongoose');
-const { $where } = require('./models/ProductSchema');
+const sales = require("./models/ProductSales");
+
 mango.connect(mangoUrl,{
     useNewUrlParser: true,
   })
@@ -68,8 +69,9 @@ data.patch('/update',async(req,res)=>{
 })
 
 // ====> to update the billing array of stocks at one request <======
-data.patch('/updateStocks',async(req,res)=>{
+data.post('/updateStocks',async(req,res)=>{
     items = req.body.data
+    console.log(items)
     items.map(async(data)=>{
         console.log(data.ProductId,data.ProductStock)
         await ProductDataSchema.findOneAndUpdate({ProductId : data.ProductId},{$set :{ProductStock:data.ProductStock} })
@@ -80,3 +82,33 @@ data.patch('/updateStocks',async(req,res)=>{
 
 })
 
+data.post('/sales', async(req,res)=>{
+    try{
+        sale = req.body.data
+        console.log(sale)
+        sale.map(async(data,ind)=>{
+
+        const newsalesData = new sales({
+            SalesId :data.SalesId,
+            ProductId : data.ProductId,
+            ProductName:data.ProductName,
+            ProductPrice:data.ProductPrice,
+            ProductQty : data.ProductQty,
+        }) 
+
+        await sales.create(newsalesData)
+    })
+    
+        res.send("sales Added Successfully")
+
+    }catch(err){
+        console.log(`Crashed post ${err}`)
+        res.status(500).send("Server error");
+    } 
+})
+
+
+data.get('/lastsale',async(req,res)=>{ 
+    const d = await sales.find().sort({_id:-1});
+    res.send(d)
+})
