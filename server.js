@@ -1,9 +1,14 @@
+require("dotenv").config({path:"../.env"})
 const express = require('express');
+
 const ProductDataSchema = require("./models/ProductSchema")
 const { default: mongoose } = require('mongoose');
-const mangoUrl = 'mongodb+srv://stockmanager:GWc0t9Z2ePgkxzcW@cluster0.ulojg.mongodb.net/?retryWrites=true&w=majority'
+
+const mangoUrl = process.env.MANGOURL;
 const mango = require('mongoose');
 const sales = require("./models/ProductSales");
+var cors = require('cors');
+
 
 mango.connect(mangoUrl,{
     useNewUrlParser: true,
@@ -15,7 +20,7 @@ connection.once("open",()=>{
 const data = express();
 
 data.use(express.json())
-
+data.use(cors())
 const port = process.env.PORT || 5000
 
 data.listen(port,()=>{
@@ -53,28 +58,29 @@ data.post('/productList', async(req,res)=>{
 
 // ===============================>||   DELETE  || <================================================
 
-data.delete("/deleteProduct",async (req,res)=>{
+data.post("/deleteProduct",async (req,res)=>{
     const pName=req.body.ProductName
     console.log(pName)
+    
     await ProductDataSchema.deleteOne({"ProductName":pName});
     res.send(`${pName} : deleted sucessfully`)
     console.log("deleted")
 })
 
 data.patch('/update',async(req,res)=>{
-    
-    await ProductDataSchema.findOneAndUpdate({ProductId : req.body.ProductId},{$set :{ProductStock:req.body.newStock} })
+    console.log(req.body)
+    await ProductDataSchema.findOneAndUpdate({ProductId : req.body.modalData.id},{$set :{ProductStock:req.body.modalData.stock} })
     res.send("updated")
 
 })
 
 // ====> to update the billing array of stocks at one request <======
 data.post('/updateStocks',async(req,res)=>{
-    items = req.body.data
+    items = req.body.bill
     console.log(items)
     items.map(async(data)=>{
-        console.log(data.ProductId,data.ProductStock)
-        await ProductDataSchema.findOneAndUpdate({ProductId : data.ProductId},{$set :{ProductStock:data.ProductStock} })
+        console.log(data.Id,data.BalanceStock)
+        await ProductDataSchema.findOneAndUpdate({ProductId : data.Id},{$set :{ProductStock:data.BalanceStock} })
     }
     )
     console.log("bill of product updated")
@@ -84,21 +90,21 @@ data.post('/updateStocks',async(req,res)=>{
 
 data.post('/sales', async(req,res)=>{
     try{
-        sale = req.body.data
-        console.log(sale)
+        sale = req.body.bill
+        // console.log(sale)
         sale.map(async(data,ind)=>{
 
         const newsalesData = new sales({
             SalesId :data.SalesId,
-            ProductId : data.ProductId,
-            ProductName:data.ProductName,
-            ProductPrice:data.ProductPrice,
-            ProductQty : data.ProductQty,
+            ProductId : data.Id,
+            ProductName:data.Name,
+            ProductPrice:data.Rate,
+            ProductQty : data.Quantity,
         }) 
 
         await sales.create(newsalesData)
     })
-    
+        
         res.send("sales Added Successfully")
 
     }catch(err){
