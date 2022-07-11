@@ -24,7 +24,7 @@ data.use(cors())
 const port = process.env.PORT || 5000
 
 data.listen(port,()=>{
-    console.log(`http:localhost:${port}`)
+    console.log(`http://localhost:${port}`)
 })
 
 
@@ -68,8 +68,13 @@ data.post("/deleteProduct",async (req,res)=>{
 })
 
 data.patch('/update',async(req,res)=>{
-    console.log(req.body)
-    await ProductDataSchema.findOneAndUpdate({ProductId : req.body.modalData.id},{$set :{ProductStock:req.body.modalData.stock} })
+   
+
+    const newVal = {ProductStock:req.body.modalData.stock,ProductActualPrice:req.body.modalData.actual,ProductRetailPrice:req.body.modalData.retail}
+    await ProductDataSchema.findOneAndUpdate(
+        {ProductId : req.body.modalData.id},
+        {$set : newVal}
+        )
     res.send("updated")
 
 })
@@ -77,13 +82,13 @@ data.patch('/update',async(req,res)=>{
 // ====> to update the billing array of stocks at one request <======
 data.post('/updateStocks',async(req,res)=>{
     items = req.body.bill
-    console.log(items)
+
     items.map(async(data)=>{
-        console.log(data.Id,data.BalanceStock)
+      
         await ProductDataSchema.findOneAndUpdate({ProductId : data.Id},{$set :{ProductStock:data.BalanceStock} })
     }
     )
-    console.log("bill of product updated")
+   
     res.send("updated")
 
 })
@@ -91,7 +96,7 @@ data.post('/updateStocks',async(req,res)=>{
 data.post('/sales', async(req,res)=>{
     try{
         sale = req.body.bill
-        // console.log(sale)
+       
         sale.map(async(data,ind)=>{
 
         const newsalesData = new sales({
@@ -115,6 +120,14 @@ data.post('/sales', async(req,res)=>{
 
 
 data.get('/lastsale',async(req,res)=>{ 
-    const d = await sales.find().sort({_id:-1});
+    const d = await sales.find().sort({_id:-1}).limit(100);
     res.send(d)
+})
+
+data.get('/findbill',async(req,res)=>{ 
+    let {billno} = req.query
+    let salesList= await sales.find({SalesId:billno});
+    
+    
+    res.send(salesList)
 })

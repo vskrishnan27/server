@@ -21,10 +21,10 @@ const newProduct = new prdctSchema({
     },
     ProductStock : {
         type:Number
+    },
+    ProductAddedDate : {
+       time : { type : Date, default: Date.now }
     }
-    // ProductAddedDate : {
-    //     type:date
-    // }
 })
 
 const ProductData = mongoose.model("ProductData",newProduct);
