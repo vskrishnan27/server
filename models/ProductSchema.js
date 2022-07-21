@@ -4,29 +4,32 @@ const mongoose = require("mongoose")
 const prdctSchema = mongoose.Schema;
 
 const newProduct = new prdctSchema({
-    ProductId:{
-        type:String,
-        required:true,
-        unique:true
+    ProductId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    ProductName : {
-        type :String,
-        required:true
+    ProductName: {
+        type: String,
+        required: true
     },
-    ProductActualPrice:{
-        type:Number
+    ProductActualPrice: {
+        type: Number
     },
-    ProductRetailPrice:{
-        type:Number
+    ProductRetailPrice: {
+        type: Number
     },
-    ProductStock : {
-        type:Number
+    ProductStock: {
+        type: Number
     },
-    ProductAddedDate : {
-       time : { type : Date, default: Date.now }
+    GSTPercentage: {
+        type: Number
+    },
+    GSTPrice: {
+        type: Number
     }
-})
+}, { timestamps: true })
 
-const ProductData = mongoose.model("ProductData",newProduct);
+const ProductData = mongoose.model("ProductData", newProduct);
 
 module.exports = ProductData;
