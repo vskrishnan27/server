@@ -117,10 +117,30 @@ data.get('/findbill', async (req, res) => {
     res.send(salesList)
 })
 
+data.get('/findProductDetail', async (req, res) => {
+    let { billno } = req.query
+    let ProductDetails = await ProductDataSchema.findOne({ ProductId: billno });
+    console.log(ProductDetails)
+    res.send(ProductDetails)
+})
 
-const invoice = require('./router/invoice')
+data.get('/borrow', async (req, res) => {
+    let { phone } = req.query
+    console.log(phone)
+    let salesData = await sales.find({ "userDetail.phone": { $eq: phone } }).sort({ createdAt: -1 });
+    console.log("hi", salesData)
+    res.send(salesData)
+})
+
+
+const invoice = require('./router/invoice');
+
 
 data.use('/invoice', invoice)
+
+var GstBill = require('./router/GstBill')
+
+data.use('/gstbill', GstBill)
 
 
 

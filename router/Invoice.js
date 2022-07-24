@@ -16,7 +16,7 @@ router.post('/createinvoicebill', async (req, res) => {
     }
 })
 
-router.post('/updateProduct',async(req,res)=>{
+router.post('/updateProduct', async (req, res) => {
     const newVal = { ProductStock: req.body.modalData.stock, ProductActualPrice: req.body.modalData.actual, ProductRetailPrice: req.body.modalData.retail }
     await ProductDataSchema.findOneAndUpdate(
         { ProductId: req.body.modalData.id },
