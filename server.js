@@ -10,6 +10,7 @@ const mango = require('mongoose');
 const sales = require("./models/ProductSales");
 var cors = require('cors');
 const { CommandFailedEvent } = require("mongodb");
+// 
 
 
 mango.connect(mangoUrl, {
