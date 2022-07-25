@@ -139,9 +139,9 @@ data.get('/borrow', async (req, res) => {
 
 // data.use('/invoice', invoice)
 
-var GstBill = require('./datas/GstBill.js')
+// var GstBill = require('./datas/GstBill.js')
 
-data.use('/gstbill', GstBill)
+// data.use('/gstbill', GstBill)
 
 
 
