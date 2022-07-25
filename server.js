@@ -134,10 +134,10 @@ data.get('/borrow', async (req, res) => {
 })
 
 
-const invoice = require('./datas/invoice.js');
+//  invoice = require('./datas/invoice.js');
 
 
-data.use('/invoice', invoice)
+// data.use('/invoice', invoice)
 
 var GstBill = require('./datas/GstBill.js')
 
