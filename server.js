@@ -3,8 +3,8 @@ const express = require('express');
 
 const ProductDataSchema = require("./models/ProductSchema.js")
 const InvoiceBillSchema = require("./models/InvoiceBillSchema.js")
-const invoice = require("./datas/invoice.js");
-const GstBill = require("./datas/GstBill.js")
+const invoice = require("./datas/Invoice.js");
+const GstBill = require("./datas/Gstbill.js")
 const { default: mongoose } = require('mongoose');
 
 const mangoUrl = process.env.MANGOURL;
