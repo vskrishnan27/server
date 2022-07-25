@@ -1,13 +1,13 @@
 require("dotenv").config({ path: "./.env" })
 const express = require('express');
 
-const ProductDataSchema = require("./models/ProductSchema")
-const InvoiceBillSchema = require("./models/InvoiceBillSchema")
+const ProductDataSchema = require("./models/ProductSchema.js")
+const InvoiceBillSchema = require("./models/InvoiceBillSchema.js")
 const { default: mongoose } = require('mongoose');
 
 const mangoUrl = process.env.MANGOURL;
 const mango = require('mongoose');
-const sales = require("./models/ProductSales");
+const sales = require("./models/ProductSales.js");
 var cors = require('cors');
 const { CommandFailedEvent } = require("mongodb");
 // 
@@ -134,12 +134,12 @@ data.get('/borrow', async (req, res) => {
 })
 
 
-const invoice = require('./router/invoice');
+const invoice = require('./router/invoice.js');
 
 
 data.use('/invoice', invoice)
 
-var GstBill = require('./router/GstBill')
+var GstBill = require('./router/GstBill.js')
 
 data.use('/gstbill', GstBill)
 
