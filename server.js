@@ -3,6 +3,8 @@ const express = require('express');
 
 const ProductDataSchema = require("./models/ProductSchema.js")
 const InvoiceBillSchema = require("./models/InvoiceBillSchema.js")
+const invoice = require("./datas/invoice.js");
+const GstBill = require("./datas/GstBill.js")
 const { default: mongoose } = require('mongoose');
 
 const mangoUrl = process.env.MANGOURL;
@@ -134,12 +136,11 @@ data.get('/borrow', async (req, res) => {
 })
 
 
-invoice = require("./datas/invoice.js");
 
 
 data.use('/invoice', invoice)
 
-var GstBill = require("./datas/GstBill.js")
+
 
 data.use('/gstbill', GstBill)
 
