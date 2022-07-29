@@ -88,7 +88,7 @@ data.post('/updateStocks', async (req, res) => {
 
     let { items, salesid, reason } = req.body
 
-    items.map(async (data) => {
+    items?.map(async (data) => {
         if (reason === 'Sales') {
             const currentData = await ProductDataSchema.findOne({ ProductId: data.Id });
             data.Quantity = -1 * data.Quantity
