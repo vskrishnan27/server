@@ -87,7 +87,7 @@ data.patch('/update', async (req, res) => {
 data.post('/updateStocks', async (req, res) => {
 
     let { items, salesid, reason } = req.body
-
+    console.log(req.body)
     items?.map(async (data) => {
         if (reason === 'Sales') {
             const currentData = await ProductDataSchema.findOne({ ProductId: data.Id });
