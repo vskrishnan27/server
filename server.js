@@ -83,18 +83,58 @@ data.patch('/update', async (req, res) => {
 })
 
 // ====> to update the billing array of stocks at one request <======
+
 data.post('/updateStocks', async (req, res) => {
-    items = req.body.bill
+
+    let { items, salesid, reason } = req.body
 
     items.map(async (data) => {
+        if (reason === 'Sales') {
+            const currentData = await ProductDataSchema.findOne({ ProductId: data.Id });
+            data.Quantity = -1 * data.Quantity
+            await ProductDataSchema.findOneAndUpdate({ ProductId: data.Id }, { $inc: { ProductStock: data.Quantity } })
+            await ProductDataSchema.findOneAndUpdate({ ProductId: data.Id },
+                {
+                    $push: {
+                        DataLogs: {
+                            RefNo: salesid,
+                            Remarks: reason,
+                            Quantity: data.Quantity,
+                            BalanceStock: currentData.ProductStock + data.Quantity,
+                        }
+                    }
+                }
+            )
+        } else {
+            const currentData = await ProductDataSchema.findOne({ ProductName: data.name });
+            await ProductDataSchema.findOneAndUpdate({ ProductName: data.name }, { $inc: { ProductStock: data.qty } })
+            await ProductDataSchema.findOneAndUpdate({ ProductName: data.name },
+                {
+                    $push: {
+                        DataLogs: {
+                            RefNo: salesid,
+                            Remarks: reason,
+                            Quantity: data.qty,
+                            BalanceStock: currentData.ProductStock + data.qty,
+                        }
+                    }
+                }
+            )
 
-        await ProductDataSchema.findOneAndUpdate({ ProductId: data.Id }, { $set: { ProductStock: data.BalanceStock } })
+        }
+
+
+
+
     }
     )
 
     res.send("updated")
 
 })
+
+
+
 
 data.post('/sales', async (req, res) => {
     try {

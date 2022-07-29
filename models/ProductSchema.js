@@ -27,6 +27,9 @@ const newProduct = new prdctSchema({
     },
     GSTPrice: {
         type: Number
+    },
+    DataLogs: {
+        type: Array
     }
 }, { timestamps: true })
 
