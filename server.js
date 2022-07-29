@@ -86,7 +86,7 @@ data.patch('/update', async (req, res) => {
 
 data.post('/updateStocks', async (req, res) => {
 
-    let { items, salesid, reason } = req.body
+    let { items, salesid, reason } = req.body.newBill
     console.log(req.body)
     items?.map(async (data) => {
         if (reason === 'Sales') {
