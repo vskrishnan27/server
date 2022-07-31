@@ -39,6 +39,12 @@ data.get("/list", (req, res) => {
     });
 });
 
+data.get("/datalog", (req, res) => {
+    ProductDataSchema.findOne({ ProductId: req.body.id }, (err, result) => {
+        res.send(result);
+    });
+});
+
 data.post('/productList', async (req, res) => {
     try {
         console.log("res.body : ", req.body);
