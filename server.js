@@ -121,7 +121,7 @@ data.post('/updateStocks', async (req, res) => {
                             RefNo: salesid,
                             Remarks: reason,
                             Quantity: data.qty,
-                            BalanceStock: currentData.ProductStock + data.qty,
+                            BalanceStock: parseInt(currentData.ProductStock) + parseInt(data.qty),
                         }
                     }
                 }
