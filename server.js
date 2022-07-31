@@ -133,9 +133,6 @@ data.post('/updateStocks', async (req, res) => {
 
 })
 
-
-
-
 data.post('/sales', async (req, res) => {
     try {
         sale = req.body.schemaBill
@@ -155,7 +152,15 @@ data.get('/lastsale', async (req, res) => {
 
 data.get('/findbill', async (req, res) => {
     let { billno } = req.query
-    let salesList = await sales.findOne({ salesid: billno });
+    let salesList = await sales.find({ salesid: billno });
+    console.log(salesList)
+    res.send(salesList)
+})
+
+
+data.get('/findbillbyname', async (req, res) => {
+    let { billno } = req.query
+    let salesList = await sales.find({ "userDetail.name": { '$regex': billno, '$options': 'i' } });
     console.log(salesList)
     res.send(salesList)
 })
