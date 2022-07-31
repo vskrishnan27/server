@@ -160,7 +160,7 @@ data.get('/findbill', async (req, res) => {
 
 data.get('/findbillbyname', async (req, res) => {
     let { billno } = req.query
-    let salesList = await sales.find({ "userDetail.name": { '$regex': billno, '$options': 'i' } });
+    let salesList = await sales.find({ "userDetail.name": { '$regex': billno, '$options': 'i' } }).sort({ _id: -1 }).limit(100);
     console.log(salesList)
     res.send(salesList)
 })
