@@ -40,7 +40,7 @@ data.get("/list", (req, res) => {
 });
 
 data.get("/datalog", (req, res) => {
-    ProductDataSchema.findOne({ ProductId: req.body.id }, (err, result) => {
+    ProductDataSchema.findOne({ ProductId: req.query.id }, (err, result) => {
         res.send(result);
     });
 });
