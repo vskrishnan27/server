@@ -79,7 +79,9 @@ data.post("/deleteProduct", async (req, res) => {
 })
 
 data.patch('/update', async (req, res) => {
-    const newVal = { ProductStock: req.body.modalData.stock, ProductActualPrice: req.body.modalData.actual, ProductRetailPrice: req.body.modalData.retail }
+    const newVal = {
+        ProductStock: req.body.modalData.stock, ProductActualPrice: req.body.modalData.actual, ProductRetailPrice: req.body.modalData.retail, GSTPrice: req.body.modalData.gst
+    }
     await ProductDataSchema.findOneAndUpdate(
         { ProductId: req.body.modalData.id },
         { $set: newVal }

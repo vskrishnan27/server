@@ -27,6 +27,9 @@ router.get('/findbydates', async (req, res) => {
     console.log(start)
     try {
         const GstBillDetails = await ProductSales.find({ createdAt: { $gte: start, $lte: end } })
+        console.log(GstBillDetails)
+
+
         res.send(GstBillDetails)
     } catch (err) {
         console.log(err)
