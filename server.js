@@ -35,6 +35,7 @@ data.listen(port, () => {
 
 data.get("/list", (req, res) => {
     ProductDataSchema.find({}, {
+        ProductId: 1,
         ProductName: 1, ProductActualPrice: 1, ProductRetailPrice: 1, ProductStock: 1, GSTPercentage: 1,
         GSTPrice: 1
     }, (err, result) => {
