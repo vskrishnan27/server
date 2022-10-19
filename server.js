@@ -34,13 +34,17 @@ data.listen(port, () => {
 
 
 data.get("/list", (req, res) => {
-    ProductDataSchema.find({}, (err, result) => {
+    ProductDataSchema.find({}, {
+        ProductName: 1, ProductActualPrice: 1, ProductRetailPrice: 1, ProductStock: 1, GSTPercentage: 1,
+        GSTPrice: 1
+    }, (err, result) => {
+        console.log(result)
         res.send(result);
     });
 });
 
 data.get("/datalog", (req, res) => {
-    ProductDataSchema.findOne({ ProductId: req.query.id }, (err, result) => {
+    ProductDataSchema.findOne({ ProductId: req.query.id }, { DataLogs: 1 }, (err, result) => {
         res.send(result);
     });
 });
