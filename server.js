@@ -34,12 +34,12 @@ data.listen(port, () => {
 
 
 data.get("/list", (req, res) => {
+    console.log(new date())
     ProductDataSchema.find({}, {
         ProductId: 1,
         ProductName: 1, ProductActualPrice: 1, ProductRetailPrice: 1, ProductStock: 1, GSTPercentage: 1,
         GSTPrice: 1
     }, (err, result) => {
-        console.log(result)
         res.send(result);
     });
 });
@@ -210,7 +210,7 @@ data.get("/fetch", async (req, res) => {
     // {'name': {'$regex': 'sometext'}}
     const { val } = req.query
     if (!val) return res.send([])
-    const data = await ProductDataSchema.find({ ProductName: { '$regex': val, '$options': 'i' } });
+    const data = await ProductDataSchema.find({ ProductName: { '$regex': val, '$options': 'i' } }, { ProductName: 1, ProductId: 1 });
 
     res.send(data)
 });
