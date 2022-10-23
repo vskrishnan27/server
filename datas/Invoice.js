@@ -47,7 +47,24 @@ router.get('/viewInvoice', async (req, res) => {
     const { invoiceNum } = req.query;
     try {
         const invoiceDetails = await InvoiceBillSchema.find({ invoiceNum });
+
         res.send(invoiceDetails)
+    } catch (err) {
+        res.send(JSON.stringify({
+            status: "failed",
+            error: err,
+            invoiceNum
+        })
+        )
+    }
+}
+)
+router.delete('/deleteInvoice', async (req, res) => {
+
+    const { invoiceNum } = req.query;
+    try {
+        const invoiceDetails = await InvoiceBillSchema.deleteOne({ invoiceNum });
+        res.send("deleted suceessfully")
     } catch (err) {
         res.send(JSON.stringify({
             status: "failed",
