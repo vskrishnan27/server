@@ -26,7 +26,7 @@ const data = express();
 
 data.use(express.json())
 data.use(cors())
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 3000
 
 data.listen(port, () => {
     console.log(`http://localhost:${port}`)
